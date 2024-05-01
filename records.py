@@ -1,3 +1,4 @@
+import pygame as pg
 import json
 
 from setting import *
@@ -8,13 +9,13 @@ class Records:
 
     def load_scores(self):
         try:
-            with open("scores.json", "r") as f:
+            with open("data/scores.json", "r") as f:
                 return json.load(f)
         except FileNotFoundError:
             return {}
 
     def save_scores(self, scores):
-        with open("scores.json", "w") as f:
+        with open("data/scores.json", "w") as f:
             json.dump(scores, f)
 
     def show_high_scores(self, game):
