@@ -3,19 +3,21 @@ import json
 
 from setting import *
 
+scores_data = "data/scores.json"
+
 class Records:
     def __init__(self):
         pass 
 
     def load_scores(self):
         try:
-            with open("data/scores.json", "r") as f:
+            with open(scores_data, "r") as f:
                 return json.load(f)
         except FileNotFoundError:
             return {}
 
     def save_scores(self, scores):
-        with open("data/scores.json", "w") as f:
+        with open(scores_data, "w") as f:
             json.dump(scores, f)
 
     def show_high_scores(self, game):

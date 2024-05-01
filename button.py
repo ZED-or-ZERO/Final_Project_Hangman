@@ -2,6 +2,7 @@ import pygame as pg
 import math
 
 from setting import *
+from sound import *
 
 class Button:
     def __init__(self, x, y, letter):

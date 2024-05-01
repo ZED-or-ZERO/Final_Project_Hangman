@@ -7,6 +7,7 @@ from button import Button
 from records import Records
 from sound import *
 
+back_sound = load_back_sound()
 class Game:
     def __init__(self):
         pg.init()
@@ -80,6 +81,7 @@ class Game:
             elif event.type == pg.MOUSEBUTTONDOWN:
                 m_x, m_y = pg.mouse.get_pos()
                 for button in self.buttons:
+                    play_click_sound()
                     if button.clicked((m_x, m_y)) and button.visible:
                         button.visible = False
                         self.guessed.append(button.letter)
@@ -94,20 +96,28 @@ class Game:
                 break
 
         if won:
+            stop_back_sound(back_sound)
             play_won_sound()
             self.display_message("You WON!")
             self.game_over = True
             self.won = True
+            reset_game()
             
 
         if self.hangman_status == 6:
+            stop_back_sound(back_sound)
             play_lost_sound()
             self.display_message(f"You LOST! The word was {self.word}")
             self.game_over = True
             self.won = False
+            reset_game()
             
 
     def reset_game(self):
+        global hangman_status
+        global word
+        global guessed
+        global letters
         self.hangman_status = 0
         self.word = random.choice(self.word_list)
         self.guessed = []
@@ -133,15 +143,15 @@ class Game:
 
     def main_menu(self):
 
-        play_back_sound()
-        
+        play_back_sound(back_sound)
+
         play_game = True
         while play_game:
             self.win.fill(WHITE)
 
             title_text = self.fonts[2].render("Hangman Game", 1, BLACK)
             play_text = self.fonts[1].render("Play", 1, BLACK)
-            scores_text = self.fonts[1].render("High Scores", 1, BLACK)
+            scores_text = self.fonts[1].render("High Scores", 1, 'red')
 
             title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100))
             play_rect = play_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
