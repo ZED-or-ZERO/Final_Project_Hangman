@@ -5,6 +5,7 @@ import random
 from setting import *
 from button import Button
 from records import Records
+from sound import *
 
 class Game:
     def __init__(self):
@@ -93,14 +94,18 @@ class Game:
                 break
 
         if won:
+            play_won_sound()
             self.display_message("You WON!")
             self.game_over = True
             self.won = True
+            
 
         if self.hangman_status == 6:
+            play_lost_sound()
             self.display_message(f"You LOST! The word was {self.word}")
             self.game_over = True
             self.won = False
+            
 
     def reset_game(self):
         self.hangman_status = 0
@@ -127,6 +132,9 @@ class Game:
         pg.time.delay(3000)
 
     def main_menu(self):
+
+        play_back_sound()
+        
         play_game = True
         while play_game:
             self.win.fill(WHITE)
@@ -147,6 +155,8 @@ class Game:
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
+                    play_game = False
+                elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     play_game = False
                 elif event.type == pg.MOUSEBUTTONDOWN:
                     mouse_pos = pg.mouse.get_pos()
