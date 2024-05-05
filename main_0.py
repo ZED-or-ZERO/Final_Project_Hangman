@@ -1,3 +1,7 @@
+
+#!   ЭТО НУЛЕВОЙ ВАРИАНТ  ! 
+
+
 import pygame as pg 
 import math
 import random
