@@ -1,5 +1,6 @@
 from game import Game
 
+
 def main_menu():
     game = Game() 
     game.main_menu() 

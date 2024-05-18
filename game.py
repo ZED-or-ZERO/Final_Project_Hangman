@@ -4,7 +4,6 @@ import random
 
 from setting import *
 from button import Button
-from records import Records
 from sound import *
 
 back_sound = load_back_sound()
@@ -28,7 +27,6 @@ class Game:
         self.fonts = self.setup_fonts()
         self.game_over = False
         self.won = False
-        self.records = Records()
 
     def setup_fonts(self):
         LETTER_FONT = pg.font.SysFont('comicsans', LETTER_FONT_SIZE)
@@ -101,7 +99,8 @@ class Game:
             self.display_message("You WON!")
             self.game_over = True
             self.won = True
-            reset_game()
+            self.reset_game()
+            play_back_sound(back_sound)
             
 
         if self.hangman_status == 6:
@@ -110,7 +109,8 @@ class Game:
             self.display_message(f"You LOST! The word was {self.word}")
             self.game_over = True
             self.won = False
-            reset_game()
+            self.reset_game()
+            play_back_sound(back_sound)
             
 
     def reset_game(self):
@@ -151,15 +151,12 @@ class Game:
 
             title_text = self.fonts[2].render("Hangman Game", 1, BLACK)
             play_text = self.fonts[1].render("Play", 1, BLACK)
-            scores_text = self.fonts[1].render("High Scores", 1, 'red')
 
             title_rect = title_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 100))
             play_rect = play_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-            scores_rect = scores_text.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 100))
 
             self.win.blit(title_text, title_rect)
             self.win.blit(play_text, play_rect)
-            self.win.blit(scores_text, scores_rect)
 
             pg.display.update()
 
@@ -172,5 +169,3 @@ class Game:
                     mouse_pos = pg.mouse.get_pos()
                     if play_rect.collidepoint(mouse_pos):
                         self.play()
-                    elif scores_rect.collidepoint(mouse_pos):
-                        self.records.show_high_scores(self) 
